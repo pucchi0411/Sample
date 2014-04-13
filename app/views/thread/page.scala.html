@@ -1,44 +1,56 @@
-@(thread:Thread,comments:List[models.Comment],form:Form[models.NewComment])(implicit flash:play.api.mvc.Flash)
+@(thread: Thread, comments: List[models.Comment], form: Form[models.NewComment])(implicit flash: play.api.mvc.Flash)
 
-@main("Welcome to Play") {
+    @main("Welcome to Play") {
 
-    <div class="jumbotron">
-        <h1>@thread.name</h1>
-    </div>
+        <div class="jumbotron">
+            <h1>@thread.name</h1>
+        </div>
 
-    <table class="table">
-        <tr>
-            <th>name</th>
-            <th>comment</th>
-        </tr>
-        @for(comment <- comments){
+        <table class="table">
             <tr>
-                <td>@comment.name</td>
-                <td>@comment.comment</td>
+                <th>name</th>
+                <th>comment</th>
             </tr>
+            @for(comment <- comments) {
+                <tr>
+                    <td>@comment.name</td>
+                    <td>@comment.comment</td>
+                </tr>
+            }
+        </table>
+
+
+        <div class="panel panel-default">
+            <div class="row">
+                <h3 class="col-md-offset-1">new comment</h3>
+                <div class="col-md-5 col-md-offset-1">
+                    <div class="row">
+                        <form role="form" action="@routes.PageActions.create(thread.id).url" method="@routes.PageActions.create(thread.id).method">
+                            <div class="form-group col-md-5">
+                                <label>name</label>
+                                <input type="text" name="name" class="form-control" />
+                            </div>
+                            <div class="form-group col-md-10">
+                                <label>comment</label>
+                                <textarea class="form-control" rows="3" name="comment"></textarea>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <button type="submit" class="btn btn-default">submit</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @flash.get("success").map { message =>
+            <label>success</label>
+            <p>@message</p>
         }
-    </table>
 
-        @helper.form(action = routes.PageActions.create(thread.id),args = ('role -> "form")) {
-        <div class="form-group">
-            <label>name</label>
-            @helper.inputText(form("name"),args = ('class -> "form-control"))
-        </div>
-        <div class="form-group">
-            <label>comment</label>
-            @helper.textarea(form("comment"),args = ('class -> "form-control"))
-        </div>
-        <button type="submit" class="btn default-btn">submit</button>
+        @flash.get("errors").map { message =>
+            <lebel>error message</lebel>
+            <p>@message</p>
+        }
+
     }
-
-    @flash.get("success").map{ message =>
-        <label>success</label>
-        <p>@message</p>
-    }
-
-    @flash.get("errors").map{ message =>
-        <lebel>error message</lebel>
-        <p>@message</p>
-    }
-
-}
