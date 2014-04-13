@@ -18,9 +18,12 @@
     </table>
 
     <h3>create new Thread</h3>
-    @helper.form(action = routes.ThreadActions.create){
-        @helper.inputText(newThreadForm("name"))
-        <button type="submit">submit</button>
-    }
+    <form class="form-inline" role="form" action="@routes.ThreadActions.create.url" method="@routes.ThreadActions.create.method">
+        <div class="form-group">
+            <label>name</label>
+            <input type="text" name="name" class="form-control" />
+        </div>
+        <button type="submit" class="btn btn-default">Sign in</button>
+    </form>
 
 }
