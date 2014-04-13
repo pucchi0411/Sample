@@ -2,6 +2,10 @@
 
 @main("Thread List") {
 
+    <div class="jumbotron">
+        <h1>Welcom My BBS!</h1>
+    </div>
+
     <table class="table">
         <caption>thread list</caption>
         @for(thread <- threads) {
@@ -13,9 +17,10 @@
         }
     </table>
 
+    <h3>create new Thread</h3>
     @helper.form(action = routes.ThreadActions.create){
         @helper.inputText(newThreadForm("name"))
-        <button type="submit"></button>
+        <button type="submit">submit</button>
     }
 
 }
