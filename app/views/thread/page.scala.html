@@ -1,0 +1,49 @@
+@(thread:Thread,comments:List[models.Comment],form:Form[models.NewComment])(implicit flash:play.api.mvc.Flash)
+
+@main("Welcome to Play") {
+
+    <h1>@thread.name</h1>
+
+    <table class="table">
+        <tr>
+            <th>name</th>
+            <th>comment</th>
+            <th>delete</th>
+        </tr>
+        @for(comment <- comments){
+            <tr>
+                <td>@comment.name</td>
+                <td>@comment.comment</td>
+                <td>
+                    <form method="DELETE" action="@routes.Application">
+                        <input type="hidden" readonly value="@comment.id" />
+                        <button type="submit" class="btn danger-btn">delete</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </table>
+
+        @helper.form(action = routes.PageActions.create(thread.id),args = ('role -> "form")) {
+        <div class="form-group">
+            <label>name</label>
+            @helper.inputText(form("name"),args = ('class -> "form-control"))
+        </div>
+        <div class="form-group">
+            <label>comment</label>
+            @helper.textarea(form("comment"),args = ('class -> "form-control"))
+        </div>
+        <button type="submit" class="btn default-btn">submit</button>
+    }
+
+    @flash.get("success").map{ message =>
+        <label>success</label>
+        <p>@message</p>
+    }
+
+    @flash.get("errors").map{ message =>
+        <lebel>error message</lebel>
+        <p>@message</p>
+    }
+
+}

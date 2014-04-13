@@ -1,0 +1,21 @@
+@(threads:List[Thread],newThreadForm:Form[NewThread])(implicit flash:play.api.mvc.Flash)
+
+@main("Thread List") {
+
+    <table class="table">
+        <caption>thread list</caption>
+        @for(thread <- threads) {
+            <tr>
+                <td>
+                    <a href="/@thread.id">@thread.name</a>
+                </td>
+            </tr>
+        }
+    </table>
+
+    @helper.form(action = routes.ThreadActions.create){
+        @helper.inputText(newThreadForm("name"))
+        <button type="submit"></button>
+    }
+
+}
