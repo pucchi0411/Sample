@@ -2,24 +2,19 @@
 
 @main("Welcome to Play") {
 
-    <h1>@thread.name</h1>
+    <div class="jumbotron">
+        <h1>@thread.name</h1>
+    </div>
 
     <table class="table">
         <tr>
             <th>name</th>
             <th>comment</th>
-            <th>delete</th>
         </tr>
         @for(comment <- comments){
             <tr>
                 <td>@comment.name</td>
                 <td>@comment.comment</td>
-                <td>
-                    <form method="DELETE" action="@routes.Application">
-                        <input type="hidden" readonly value="@comment.id" />
-                        <button type="submit" class="btn danger-btn">delete</button>
-                    </form>
-                </td>
             </tr>
         }
     </table>

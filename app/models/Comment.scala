@@ -26,7 +26,9 @@ object Comments {
 
   def create(thread:Thread,comment:NewComment)(implicit session:DBSession = AutoSession):Int = {
     val name = if(comment.name.isEmpty) "nanashi" else comment.name
-    sql"insert into comments(thread_id,name,comment) values(${thread.id},${name},${comment.comment})"
+    val now = new java.util.Date()
+    sql"""insert into comments(thread_id,name,comment,created_at)
+          values(${thread.id},${name},${comment.comment},${now})"""
       .update.apply()
   }
 

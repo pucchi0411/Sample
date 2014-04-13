@@ -29,7 +29,8 @@ object Threads {
   }
 
   def create(newThread:NewThread)(implicit session:DBSession = AutoSession) = {
-    sql"insert into threads(name) values (${newThread.name})"
+    val now = new java.util.Date()
+    sql"insert into threads(name,created_at) values (${newThread.name},${now})"
       .update.apply()
   }
 
