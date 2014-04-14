@@ -3,8 +3,8 @@ package models
 import scalikejdbc._
 import scalikejdbc.SQLInterpolation._
 
-case class NewBoard(name:String)
-case class Board(id:Long,name:String) {
+case class NewBoard(name:String,message:String)
+case class Board(id:Long,name:String,message:String) {
 
   def create(thread:NewThread) = {
     Threads.create(this,thread)
@@ -16,12 +16,13 @@ object Boards {
 
   val * = (rs:WrappedResultSet) => Board(
     id = rs.long("id"),
-    name = rs.string("name")
+    name = rs.string("name"),
+    message= rs.string("message")
   )
 
   def create(board:NewBoard)(implicit session:DBSession = AutoSession) = {
     val now = new java.util.Date()
-    sql"insert into boards (name,created_at) values (${board.name},${now})"
+    sql"insert into boards (name,message,created_at) values (${board.name},${board.message},${now})"
       .update.apply()
   }
 

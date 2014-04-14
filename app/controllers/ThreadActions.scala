@@ -11,7 +11,8 @@ object ThreadActions extends Controller {
 
   val newThreadForm = Form(
     mapping(
-      "name" -> nonEmptyText()
+      "name" -> nonEmptyText(),
+      "message" -> text(maxLength = 255)
     )(NewThread.apply)(NewThread.unapply)
   )
 

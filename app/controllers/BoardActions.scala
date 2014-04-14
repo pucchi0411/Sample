@@ -11,7 +11,8 @@ object BoardActions extends Controller {
 
   val newBoardForm = Form(
     mapping(
-      "name" -> nonEmptyText()
+      "name" -> nonEmptyText(),
+      "message" -> text(maxLength = 255)
     )(NewBoard.apply)(NewBoard.unapply)
   )
 
