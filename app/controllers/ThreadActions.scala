@@ -16,24 +16,24 @@ object ThreadActions extends Controller {
     )(NewThread.apply)(NewThread.unapply)
   )
 
-  def list(boardId:Long) = Action {
+  def list(boardId: Long) = Action {
     implicit request =>
-      val threads = Threads.findAll()
-      val board = Boards.findById(boardId)
-
-      board match {
-        case Some(b) =>Ok(views.html.thread.list(b, threads, newThreadForm))
+      Boards.findById(boardId) match {
+        case Some(b) => {
+          val threads = Threads.findAll()
+          Ok(views.html.thread.list(b, threads, newThreadForm))
+        }
         case None => NotFound
       }
   }
 
-  def create(boardId:Long) = Action {
+  def create(boardId: Long) = Action {
     implicit request =>
       newThreadForm.bindFromRequest.fold(
         errors => Redirect(routes.ThreadActions.list(boardId)),
         newThread => {
           val board = Boards.findById(boardId)
-          board map(_.create(newThread))
+          board map (_.create(newThread))
 
           Redirect(routes.ThreadActions.list(boardId))
         }
