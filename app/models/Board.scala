@@ -36,4 +36,9 @@ object Boards {
       .map(*).list.apply()
   }
 
+  def findBy(board:Board)(implicit session:DBSession = AutoSession) = {
+    sql"select * from boards where board_id = ${board.id}"
+      .map(*).list.apply()
+  }
+
 }

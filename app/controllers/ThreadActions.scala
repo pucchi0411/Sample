@@ -20,7 +20,7 @@ object ThreadActions extends Controller {
     implicit request =>
       Boards.findById(boardId) match {
         case Some(b) => {
-          val threads = Threads.findAll()
+          val threads = Threads.findBy(b)
           Ok(views.html.thread.list(b, threads, newThreadForm))
         }
         case None => NotFound
