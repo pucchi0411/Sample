@@ -1,13 +1,13 @@
-@(threads:List[Thread],newThreadForm:Form[NewThread])(implicit flash:play.api.mvc.Flash)
+@(board:Board,threads:List[Thread],newThreadForm:Form[NewThread])(implicit flash:play.api.mvc.Flash)
 
 @main("Thread List") {
 
     <div class="jumbotron">
-        <h1>Welcom My BBS!</h1>
+        <h1>ほげ</h1>
     </div>
 
     <table class="table">
-        <caption>thread list</caption>
+        <caption>スレッド一覧</caption>
         @for(thread <- threads) {
             <tr>
                 <td>
@@ -17,8 +17,11 @@
         }
     </table>
 
-    <h3>create new Thread</h3>
-    <form class="form-inline" role="form" action="@routes.ThreadActions.create.url" method="@routes.ThreadActions.create.method">
+    <h3>スレッド作成</h3>
+    <form class="form-inline"
+          role="form"
+          action="@routes.ThreadActions.create(board.id).url"
+          method="@routes.ThreadActions.create(board.id).method">
         <div class="form-group">
             <label>name</label>
             <input type="text" name="name" class="form-control" />

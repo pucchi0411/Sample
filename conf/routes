@@ -3,18 +3,21 @@
 # ~~~~
 
 # Home page
-GET         /                    controllers.Application.index
+GET         /                        controllers.Application.index
 
+# Boards
+GET         /board                   controllers.BoardActions.list
+POST        /board/create            controllers.BoardActions.create
 
 # thread
-GET         /thread               controllers.ThreadActions.list
-POST        /thread/create        controllers.ThreadActions.create
+GET         /:boardId/thread         controllers.ThreadActions.list(boardId:Long)
+POST        /:boardId/thread/create  controllers.ThreadActions.create(boardId:Long)
 
 # comments
-GET         /:threadId            controllers.PageActions.read(threadId:Long)
-POST        /:threadId/create     controllers.PageActions.create(threadId:Long)
-POST        /:threadId/delete     controllers.PageActions.delete(threadId:Long)
+GET         /:threadId               controllers.PageActions.read(threadId:Long)
+POST        /:threadId/create        controllers.PageActions.create(threadId:Long)
+POST        /:threadId/delete        controllers.PageActions.delete(threadId:Long)
 
 
 # Map static resources from the /public folder to the /assets URL path
-GET         /assets/*file         controllers.Assets.at(path="/public", file)
+GET         /assets/*file            controllers.Assets.at(path="/public", file)

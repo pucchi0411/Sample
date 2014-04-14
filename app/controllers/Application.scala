@@ -5,7 +5,7 @@ import play.api.mvc._
 object Application extends Controller {
 
   def index = Action { implicit request =>
-    Redirect(routes.ThreadActions.list())
+    Redirect(routes.BoardActions.list())
   }
 
 }

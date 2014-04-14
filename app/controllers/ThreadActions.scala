@@ -3,8 +3,9 @@ package controllers
 import play.api.mvc._
 import play.api.data.Form
 import play.api.data.Forms._
-import models.{NewComment, Comments, Threads, NewThread}
+import models._
 import scalikejdbc._
+import models.NewThread
 
 object ThreadActions extends Controller {
 
@@ -14,23 +15,26 @@ object ThreadActions extends Controller {
     )(NewThread.apply)(NewThread.unapply)
   )
 
-  def list = Action {
+  def list(boardId:Long) = Action {
     implicit request =>
-      val threads = DB readOnly {
-        implicit session => Threads.findAll()
+      val threads = Threads.findAll()
+      val board = Boards.findById(boardId)
+
+      board match {
+        case Some(b) =>Ok(views.html.thread.list(b, threads, newThreadForm))
+        case None => NotFound
       }
-      Ok(views.html.thread.list(threads, newThreadForm))
   }
 
-  def create = Action {
+  def create(boardId:Long) = Action {
     implicit request =>
       newThreadForm.bindFromRequest.fold(
-        errors => Redirect(routes.ThreadActions.list()),
+        errors => Redirect(routes.ThreadActions.list(boardId)),
         newThread => {
-          DB localTx {
-            implicit session => Threads.create(newThread)
-          }
-          Redirect(routes.ThreadActions.list())
+          val board = Boards.findById(boardId)
+          board map(_.create(newThread))
+
+          Redirect(routes.ThreadActions.list(boardId))
         }
       )
   }
