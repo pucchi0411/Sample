@@ -18,20 +18,28 @@
         }
     </table>
 
-    <h3>スレッド作成</h3>
-    <form class="form-inline"
-          role="form"
-          action="@routes.ThreadActions.create(board.id).url"
-          method="@routes.ThreadActions.create(board.id).method">
-        <div class="form-group">
-            <label>name</label>
-            <input type="text" name="name" class="form-control" />
+    <div class="panel panel-default">
+        <div class="row">
+            <h3 class="col-md-offset-1">スレッド作成</h3>
+            <div class="col-md-5 col-md-offset-1">
+                <div class="row">
+                    <form role="form"
+                          action="@routes.ThreadActions.create(board.id).url"
+                          method="@routes.ThreadActions.create(board.id).method">
+                        <div class="form-group col-md-5">
+                            <label>スレッド名</label>
+                            <input type="text" name="name" class="form-control" />
+                        </div>
+                        <div class="form-group col-md-10">
+                            <label>メッセージ</label>
+                            <textarea class="form-control" rows="3" name="comment"></textarea>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <button type="submit" class="btn btn-default">submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
-        <div>
-            <label>message</label>
-            <textarea cols="3" name="message" class="form-control"></textarea>
-        </div>
-        <button type="submit" class="btn btn-default">作成</button>
-    </form>
-
+    </div>
 }
