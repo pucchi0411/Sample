@@ -11,7 +11,8 @@ case class Thread(id:Long,boardId:Long,name:String,message:String) {
   }
 }
 
-object Threads {
+object Threads extends Threads
+class Threads {
 
   val * = (rs:WrappedResultSet) => Thread(
     id = rs.long("id"),

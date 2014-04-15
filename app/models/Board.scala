@@ -12,7 +12,8 @@ case class Board(id:Long,name:String,message:String) {
 
 }
 
-object Boards {
+object Boards extends Boards
+class Boards {
 
   val * = (rs:WrappedResultSet) => Board(
     id = rs.long("id"),

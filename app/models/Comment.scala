@@ -6,7 +6,8 @@ import scalikejdbc.SQLInterpolation._
 case class NewComment(name:String,comment:String)
 case class Comment(id:Long,name:String,comment:String)
 
-object Comments {
+object Comments extends Comments
+class Comments {
 
   def * = (rs:WrappedResultSet) => Comment(
     id = rs.long("id"),
