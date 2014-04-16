@@ -3,7 +3,7 @@ package models
 import org.specs2.mutable._
 import play.api.test.WithApplication
 
-class ThreadsSpec extends Specification{
+class ThreadsSpec extends Specification {
 
   sequential
 
