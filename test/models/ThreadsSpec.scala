@@ -19,6 +19,12 @@ class ThreadsSpec extends Specification {
   }
 
   "findById" should {
+    "存在しないデータではNoneが返る" in new WithApplication {
+      val actual = Threads.findById(1)
+
+      actual must equalTo(None)
+    }
+
     "挿入したデータを検索できる" in new WithApplication {
       val newBoard = NewBoard("hoge","huga")
       val board = Boards.create(newBoard)

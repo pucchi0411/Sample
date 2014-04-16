@@ -18,6 +18,12 @@ class CommentsSpec  extends Specification {
   }
 
   "findById" should {
+    "存在しないデータではNoneが返る" in new WithApplication {
+      val actual = Comments.findById(1)
+
+      actual must equalTo(None)
+    }
+
     "挿入したデータを検索できる" in new WithApplication {
       Boards.create(NewBoard("hoge","huga"))
       Threads.create(Board(1,"hoge","huga"),NewThread("name","message"))

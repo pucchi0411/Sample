@@ -16,6 +16,12 @@ class BoardsSpec extends Specification {
   }
 
   "findById" should {
+    "存在しないデータではNoneが返る" in new WithApplication {
+      val actual = Boards.findById(1)
+
+      actual must equalTo(None)
+    }
+
     "挿入したデータを検索できる" in new WithApplication {
       val newBoard = NewBoard("name","message")
       Boards.create(newBoard)
