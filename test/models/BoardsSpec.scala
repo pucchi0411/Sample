@@ -1,14 +1,9 @@
 package models
 
 import org.specs2.mutable._
-import org.specs2.runner._
-import scalikejdbc.specs2.mutable.AutoRollback
-import helper.TestDBSettings
-import play.api.Configuration
-import scalikejdbc.ConnectionPool
 import play.api.test.WithApplication
 
-object BoardsSpec extends Specification {
+class BoardsSpec extends Specification {
 
   "create" should {
     "1件挿入できる" in new WithApplication{
