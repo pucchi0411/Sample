@@ -16,7 +16,7 @@ object PageActions extends Controller {
 
   val commentForm = Form(
     mapping(
-      "name" -> text,
+      "name" -> text(),
       "comment" -> nonEmptyText(maxLength = 255)
     )(NewComment.apply)(NewComment.unapply)
   )

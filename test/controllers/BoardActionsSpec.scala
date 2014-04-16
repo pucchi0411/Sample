@@ -11,6 +11,34 @@ import play.api.test.Helpers._
 @RunWith(classOf[JUnitRunner])
 class BoardActionsSpec extends Specification with Mockito {
 
+  "form" should {
+
+    "入力が問題ない場合" in {
+      val form = BoardActions.newBoardForm
+      val actual = form.bind(Map("name" -> "hoge","message" -> "fuga"))
+
+      actual.hasErrors must beFalse
+      actual.get must equalTo(models.NewBoard("hoge","fuga"))
+    }
+
+    "nameが未入力でエラー" in {
+      val form = BoardActions.newBoardForm
+      val actual = form.bind(Map("name" -> "","message" -> "fuga"))
+
+      actual.hasErrors must beTrue
+    }
+
+    "messageが未入力でも問題なし" in {
+      val form = BoardActions.newBoardForm
+      val actual = form.bind(Map("name" -> "hoge","message" -> ""))
+
+
+      actual.hasErrors must beFalse
+      actual.get must equalTo(models.NewBoard("hoge",""))
+    }
+
+  }
+
   "list" should {
 
     "板が一枚もなくとも表示できる" in new WithApplication {
