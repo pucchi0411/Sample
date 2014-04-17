@@ -7,6 +7,8 @@ import org.specs2.mock.Mockito
 
 import play.api.test._
 import play.api.test.Helpers._
+import play.api.mvc.AnyContentAsFormUrlEncoded
+import play.api.libs.json._
 
 @RunWith(classOf[JUnitRunner])
 class BoardActionsSpec extends Specification with Mockito {
@@ -49,6 +51,30 @@ class BoardActionsSpec extends Specification with Mockito {
       status(response) must equalTo(OK)
     }
 
+  }
+
+  "create" should {
+    "formエラーでトップ[/]にリダイレクトされる" in new WithApplication {
+      val json = Json.obj(
+        "name" -> JsString(""),
+        "message" -> JsString("fuga")
+      )
+      val response = route(FakeRequest("POST","/board/create").withJsonBody(json)).get
+
+      status(response) must equalTo(SEE_OTHER)
+      redirectLocation(response) must equalTo(Some("/"))
+    }
+
+    "formから値が取得できれば[/board]にリダイレクト" in new WithApplication {
+      val json = Json.obj(
+        "name" -> JsString("hoge"),
+        "message" -> JsString("fuga")
+      )
+      val response = route(FakeRequest("POST","/board/create").withJsonBody(json)).get
+
+      status(response) must equalTo(SEE_OTHER)
+      redirectLocation(response) must equalTo(Some("/board"))
+    }
   }
 
 }
