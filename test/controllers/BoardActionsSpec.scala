@@ -61,7 +61,6 @@ class BoardActionsSpec extends Specification with Mockito {
       )
       val response = route(FakeRequest("POST","/board/create").withJsonBody(json)).get
 
-      status(response) must equalTo(SEE_OTHER)
       redirectLocation(response) must equalTo(Some("/"))
     }
 
@@ -72,7 +71,6 @@ class BoardActionsSpec extends Specification with Mockito {
       )
       val response = route(FakeRequest("POST","/board/create").withJsonBody(json)).get
 
-      status(response) must equalTo(SEE_OTHER)
       redirectLocation(response) must equalTo(Some("/board"))
     }
   }

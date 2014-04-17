@@ -7,6 +7,7 @@ import org.specs2.mock.Mockito
 
 import play.api.test._
 import play.api.test.Helpers._
+import play.api.libs.json.{JsString, Json}
 
 @RunWith(classOf[JUnitRunner])
 class ThreadActionsSpec extends Specification with Mockito {
@@ -44,6 +45,30 @@ class ThreadActionsSpec extends Specification with Mockito {
 
       val response = route(FakeRequest(GET, "/1/thread")).get
       status(response) must equalTo(NOT_FOUND)
+    }
+
+  }
+
+  "create" should {
+
+    "formエラーでトップ[/]にリダイレクトされる" in new WithApplication {
+      val json = Json.obj(
+        "name" -> JsString(""),
+        "message" -> JsString("fuga")
+      )
+      val response = route(FakeRequest("POST","/1/thread/create").withJsonBody(json)).get
+
+      redirectLocation(response) must equalTo(Some("/"))
+    }
+
+    "formから値が取得できればスレッドトップにリダイレクト[/1/thread]" in new WithApplication {
+      val json = Json.obj(
+        "name" -> JsString("hoge"),
+        "message" -> JsString("fuga")
+      )
+      val response = route(FakeRequest("POST","/1/thread/create").withJsonBody(json)).get
+
+      redirectLocation(response) must equalTo(Some("/1/thread"))
     }
 
   }
