@@ -30,7 +30,7 @@ object ThreadActions extends Controller {
   def create(boardId: Long) = Action {
     implicit request =>
       newThreadForm.bindFromRequest.fold(
-        errors => Redirect(routes.ThreadActions.list(boardId)),
+        errors => Redirect(routes.Application.index()),
         newThread => {
           val board = Boards.findById(boardId)
           board map (_.create(newThread))

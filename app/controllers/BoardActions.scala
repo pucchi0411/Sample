@@ -18,7 +18,7 @@ object BoardActions extends Controller {
 
   def list = Action {
     implicit request =>
-      val boards = Boards.findAll()
+      val boards = DB readOnly{ implicit session => Boards.findAll() }
       Ok(views.html.board.list(boards, newBoardForm))
   }
 
@@ -27,8 +27,10 @@ object BoardActions extends Controller {
       newBoardForm.bindFromRequest.fold(
         errors => Redirect(routes.Application.index()),
         newBoard => {
-          Boards.create(newBoard)
-          Redirect(routes.BoardActions.list())
+          DB localTx { implicit session =>
+            Boards.create(newBoard)
+            Redirect(routes.BoardActions.list())
+          }
         }
       )
   }

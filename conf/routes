@@ -6,6 +6,7 @@
 GET         /                        controllers.Application.index
 
 # Boards
+
 GET         /board                   controllers.BoardActions.list
 POST        /board/create            controllers.BoardActions.create
 
