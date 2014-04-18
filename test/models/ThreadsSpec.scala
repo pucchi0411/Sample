@@ -7,6 +7,10 @@ class ThreadsSpec extends Specification {
 
   sequential
 
+  def setUp() = {
+
+  }
+
   "create" should {
     "1件挿入できる" in new WithApplication{
       val newBoard = NewBoard("hoge","huga")

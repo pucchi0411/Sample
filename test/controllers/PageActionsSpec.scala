@@ -85,6 +85,7 @@ class PageActionsSpec extends Specification with Mockito {
       )
       val response = route(FakeRequest("POST", "/1/create").withJsonBody(json)).get
 
+      flash(response) must equalTo(play.api.mvc.Flash(Map("errors"->"error")))
       redirectLocation(response) must equalTo(Some("/"))
     }
 
