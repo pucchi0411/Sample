@@ -61,15 +61,27 @@ class PageActionsSpec extends Specification with Mockito {
   "read" should {
 
     "存在しないスレッドを指定すると,NotFound" in new WithApplication {
-      val response = route(FakeRequest(GET, "/1")).get
+      val threads = mock[Threads]
+      val comments = mock[Comments]
+
+      threads.findById(1) returns None
+      val action = new PageActions(threads,comments)
+
+      val response = action.read(1)(FakeRequest(GET, "/1"))
       status(response) must equalTo(NOT_FOUND)
     }
 
     "スレッドが見つかればOK" in new WithApplication {
-      Boards.create(NewBoard("foo","bar"))
-      Threads.create(Board(1,"foo","bar"),NewThread("hoge","huga"))
+      val t = mock[Thread]
+      val c = mock[Comment]
+      val threads = mock[Threads]
+      val comments = mock[Comments]
 
-      val response = route(FakeRequest(GET, "/1")).get
+      threads.findById(1) returns Some(t)
+      comments.findBy(t) returns List(c)
+      val action = new PageActions(threads,comments)
+
+      val response = action.read(1)(FakeRequest(GET, "/1"))
 
       status(response) must equalTo(OK)
     }
@@ -79,36 +91,55 @@ class PageActionsSpec extends Specification with Mockito {
 
   "create" should {
     "formエラーでトップ[/]にリダイレクトされる" in new WithApplication {
+      val threads = mock[Threads]
+      val comments = mock[Comments]
+
+      val action = new PageActions(threads,comments)
+
       val json = Json.obj(
         "name" -> JsString("hoge"),
         "comment" -> JsString("")
       )
-      val response = route(FakeRequest("POST", "/1/create").withJsonBody(json)).get
+      val response = action.create(1)(FakeRequest("POST", "/1/create").withJsonBody(json))
 
       flash(response) must equalTo(play.api.mvc.Flash(Map("errors"->"error")))
       redirectLocation(response) must equalTo(Some("/"))
     }
 
     "formから値が取得できたが,スレッドが存在しない場合NotFound" in new WithApplication {
+      val t = mock[Thread]
+      val c = mock[Comment]
+      val threads = mock[Threads]
+      val comments = mock[Comments]
+
+      threads.findById(1) returns None
+      val action = new PageActions(threads,comments)
+
       val json = Json.obj(
         "name" -> JsString(""),
         "comment" -> JsString("fuga")
       )
-      val response = route(FakeRequest("POST", "/1/create").withJsonBody(json)).get
+      val response = action.create(1)(FakeRequest("POST", "/1/create").withJsonBody(json))
 
       status(response) must equalTo(NOT_FOUND)
     }
 
 
     "formから値が取得でき,書き込めれば[/1]へリダイレクト" in new WithApplication {
-      Boards.create(NewBoard("foo","bar"))
-      Threads.create(Board(1,"foo","bar"),NewThread("hoge","huga"))
+      val t = mock[Thread]
+      val c = mock[Comment]
+      val threads = mock[Threads]
+      val comments = mock[Comments]
+
+      threads.findById(1) returns Some(t)
+      t.comment(NewComment("","fuga")) returns 1
+      val action = new PageActions(threads,comments)
 
       val json = Json.obj(
         "name" -> JsString(""),
         "comment" -> JsString("fuga")
       )
-      val response = route(FakeRequest("POST", "/1/create").withJsonBody(json)).get
+      val response = action.create(1)(FakeRequest("POST", "/1/create").withJsonBody(json))
 
       redirectLocation(response) must equalTo(Some("/1"))
     }
