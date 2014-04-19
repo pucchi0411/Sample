@@ -47,7 +47,24 @@ class BoardActionsSpec extends Specification with Mockito {
       val board = mock[models.Boards]
       board.findAll() returns List()
 
+      val action = new BoardActions(board)
+
       val response = route(FakeRequest(GET, "/board")).get
+      status(response) must equalTo(OK)
+    }
+
+    "板が一枚でもあればその情報を表示できる" in new WithApplication {
+      val b = mock[models.Board]
+      val boards = mock[models.Boards]
+      b.id returns 1
+      b.name returns "hoge"
+      boards.findAll() returns List(b)
+
+      val action = new BoardActions(boards)
+
+      val response = action.list(FakeRequest(GET, "/board"))
+
+      contentAsString(response) must contain("hoge")
       status(response) must equalTo(OK)
     }
 
@@ -55,22 +72,33 @@ class BoardActionsSpec extends Specification with Mockito {
 
   "create" should {
     "formエラーでトップ[/]にリダイレクトされる" in new WithApplication {
+      val boards = mock[models.Boards]
+      val action = new BoardActions(boards)
+
       val json = Json.obj(
         "name" -> JsString(""),
         "message" -> JsString("fuga")
       )
-      val response = route(FakeRequest("POST","/board/create").withJsonBody(json)).get
+      val response = action.create()(FakeRequest("POST","/board/create").withJsonBody(json))
 
       redirectLocation(response) must equalTo(Some("/"))
     }
 
     "formから値が取得できれば[/board]にリダイレクト" in new WithApplication {
+      val b = mock[models.Board]
+      val boards = mock[models.Boards]
+      b.id returns 1
+      b.name returns "hoge"
+      boards.findAll() returns List(b)
+
+      val action = new BoardActions(boards)
       val json = Json.obj(
         "name" -> JsString("hoge"),
         "message" -> JsString("fuga")
       )
-      val response = route(FakeRequest("POST","/board/create").withJsonBody(json)).get
+      val response = action.create()(FakeRequest("POST","/board/create").withJsonBody(json))
 
+      there was one(boards).create(models.NewBoard("hoge","fuga"))
       redirectLocation(response) must equalTo(Some("/board"))
     }
   }

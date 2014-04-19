@@ -7,7 +7,8 @@ import play.api.data.Forms._
 import models.{Boards, Board, NewBoard}
 import scalikejdbc._
 
-object BoardActions extends Controller {
+object BoardActions extends BoardActions(Boards)
+class BoardActions(Boards:Boards) extends Controller {
 
   val newBoardForm = Form(
     mapping(
@@ -18,7 +19,7 @@ object BoardActions extends Controller {
 
   def list = Action {
     implicit request =>
-      val boards = DB readOnly{ implicit session => Boards.findAll() }
+      val boards = Boards.findAll()
       Ok(views.html.board.list(boards, newBoardForm))
   }
 
@@ -27,10 +28,8 @@ object BoardActions extends Controller {
       newBoardForm.bindFromRequest.fold(
         errors => Redirect(routes.Application.index()),
         newBoard => {
-          DB localTx { implicit session =>
-            Boards.create(newBoard)
-            Redirect(routes.BoardActions.list())
-          }
+          Boards.create(newBoard)
+          Redirect(routes.BoardActions.list())
         }
       )
   }
