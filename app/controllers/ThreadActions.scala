@@ -7,7 +7,8 @@ import models._
 import scalikejdbc._
 import models.NewThread
 
-object ThreadActions extends Controller {
+object ThreadActions extends ThreadActions(Threads,Boards)
+class ThreadActions(Threads:Threads,Boards:Boards) extends Controller {
 
   val newThreadForm = Form(
     mapping(
