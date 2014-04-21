@@ -4,7 +4,7 @@ import scalikejdbc.DB
 import play.api.mvc._
 import play.api.data.Forms._
 import play.api.data.Form
-import models.{Threads, Comments, NewComment}
+import models.{Boards, Threads, Comments, NewComment}
 
 object PageActions extends PageActions(Threads,Comments)
 class PageActions(Threads:Threads,Comments:Comments) extends Controller {
@@ -22,40 +22,36 @@ class PageActions(Threads:Threads,Comments:Comments) extends Controller {
     )(NewComment.apply)(NewComment.unapply)
   )
 
-  def read(id: Long) = Action {
+  def read(boardId:Long,threadId: Long) = Action {
     implicit request =>
-      Threads.findById(id) match {
-        case Some(t) => {
+      Boards.findById(boardId).flatMap{ b =>
+        Threads.findById(threadId).map { t =>
           val comments = Comments.findBy(t)
-          Ok(views.html.thread.page(t, comments, commentForm))
+          Ok(views.html.thread.page(b,t, comments, commentForm))
         }
-        case None => NotFound
-      }
+      }.getOrElse(NotFound)
   }
 
-  def delete(id: Long) = Action {
+  def delete(boardId: Long,threadId:Long,commentId: Long) = Action {
     implicit request =>
       deleteForm.bindFromRequest().fold(
         errors => Redirect(routes.Application.index()),
         id => {
-          Comments.delete(id)
+          Comments.delete(commentId)
           Redirect(routes.Application.index())
         }
       )
   }
 
-  def create(id: Long) = Action {
+  def create(boardId: Long,threadId:Long) = Action {
     implicit request =>
       commentForm.bindFromRequest().fold(
         errors => Redirect(routes.Application.index()).flashing("errors" -> "error"),
         comment => {
-          Threads.findById(id) match {
-            case Some(t) => {
-              t.comment(comment)
-              Redirect(routes.PageActions.read(id))
-            }
-            case None => NotFound
-          }
+          Threads.findById(threadId).map{ t =>
+            t.comment(comment)
+            Redirect(routes.PageActions.read(boardId,threadId))
+          }.getOrElse(NotFound)
         }
       )
   }

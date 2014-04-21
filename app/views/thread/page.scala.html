@@ -1,4 +1,4 @@
-@(thread: Thread, comments: List[models.Comment], form: Form[models.NewComment])(implicit flash: play.api.mvc.Flash)
+@(board:Board,thread: Thread, comments: List[models.Comment], form: Form[models.NewComment])(implicit flash: play.api.mvc.Flash)
 
     @main("Welcome to Play") {
 
@@ -26,7 +26,9 @@
                 <h3 class="col-md-offset-1">new comment</h3>
                 <div class="col-md-5 col-md-offset-1">
                     <div class="row">
-                        <form role="form" action="@routes.PageActions.create(thread.id).url" method="@routes.PageActions.create(thread.id).method">
+                        <form role="form"
+                              action="@routes.PageActions.create(board.id,thread.id).url"
+                              method="@routes.PageActions.create(board.id,thread.id).method">
                             <div class="form-group col-md-5">
                                 <label>名前</label>
                                 <input type="text" name="name" class="form-control" />
