@@ -34,7 +34,6 @@ class BoardActionsSpec extends Specification with Mockito {
       val form = BoardActions.newBoardForm
       val actual = form.bind(Map("name" -> "hoge","message" -> ""))
 
-
       actual.hasErrors must beFalse
       actual.get must equalTo(models.NewBoard("hoge",""))
     }
@@ -99,6 +98,7 @@ class BoardActionsSpec extends Specification with Mockito {
       val response = action.create()(FakeRequest("POST","/board/create").withJsonBody(json))
 
       there was one(boards).create(models.NewBoard("hoge","fuga"))
+
       redirectLocation(response) must equalTo(Some("/board"))
     }
   }
