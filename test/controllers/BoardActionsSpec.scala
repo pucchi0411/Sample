@@ -80,7 +80,7 @@ class BoardActionsSpec extends Specification with Mockito {
       )
       val response = action.create()(FakeRequest("POST","/board/create").withJsonBody(json))
 
-      redirectLocation(response) must equalTo(Some("/"))
+      redirectLocation(response) must equalTo(Some("/board"))
     }
 
     "formから値が取得できれば[/board]にリダイレクト" in new WithApplication {

@@ -35,10 +35,10 @@ class PageActions(Boards:Boards,Threads:Threads,Comments:Comments) extends Contr
   def delete(boardId: Long,threadId:Long,commentId: Long) = Action {
     implicit request =>
       deleteForm.bindFromRequest().fold(
-        errors => Redirect(routes.Application.index()),
+        errors => Redirect(routes.PageActions.read(boardId,threadId)),
         id => {
           Comments.delete(commentId)
-          Redirect(routes.Application.index())
+          Redirect(routes.PageActions.read(boardId,threadId))
         }
       )
   }
@@ -46,7 +46,7 @@ class PageActions(Boards:Boards,Threads:Threads,Comments:Comments) extends Contr
   def create(boardId: Long,threadId:Long) = Action {
     implicit request =>
       commentForm.bindFromRequest().fold(
-        errors => Redirect(routes.Application.index()).flashing("errors" -> "error"),
+        errors => Redirect(routes.PageActions.read(boardId,threadId)).flashing("errors" -> "error"),
         comment => {
           Threads.findById(threadId).map{ t =>
             t.comment(comment)

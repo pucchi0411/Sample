@@ -26,7 +26,7 @@ class BoardActions(Boards:Boards) extends Controller {
   def create = Action {
     implicit request =>
       newBoardForm.bindFromRequest.fold(
-        errors => Redirect(routes.Application.index()),
+        errors => Redirect(routes.BoardActions.list()),
         newBoard => {
           Boards.create(newBoard)
           Redirect(routes.BoardActions.list())

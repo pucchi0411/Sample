@@ -110,7 +110,7 @@ class PageActionsSpec extends Specification with Mockito {
       val response = action.create(1,1)(FakeRequest("POST", "/1/1/create").withJsonBody(json))
 
       flash(response) must equalTo(play.api.mvc.Flash(Map("errors"->"error")))
-      redirectLocation(response) must equalTo(Some("/"))
+      redirectLocation(response) must equalTo(Some("/1/1"))
     }
 
     "formから値が取得できたが,スレッドが存在しない場合NotFound" in new WithApplication {

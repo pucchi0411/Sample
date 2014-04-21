@@ -31,7 +31,7 @@ class ThreadActions(Threads:Threads,Boards:Boards) extends Controller {
   def create(boardId: Long) = Action {
     implicit request =>
       newThreadForm.bindFromRequest.fold(
-        errors => Redirect(routes.Application.index()),
+        errors => Redirect(routes.ThreadActions.list(boardId)),
         newThread => {
           Boards.findById(boardId).map{ b =>
             b.create(newThread)

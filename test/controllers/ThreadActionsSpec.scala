@@ -82,7 +82,7 @@ class ThreadActionsSpec extends Specification with Mockito {
       )
       val response = action.create(1)(FakeRequest("POST","/1/thread/create").withJsonBody(json))
 
-      redirectLocation(response) must equalTo(Some("/"))
+      redirectLocation(response) must equalTo(Some("/1/thread"))
     }
 
     "formから値が取得できればスレッドトップにリダイレクト[/1/thread]" in new WithApplication {
