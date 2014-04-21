@@ -16,7 +16,7 @@ class ApplicationSpec extends Specification {
   "Application" should {
 
     "存在しないページへのアクセスでは404NotFound" in new WithApplication{
-      route(FakeRequest(GET, "/hoge/huga")) must beNone
+      route(FakeRequest(GET, "/hoge/huga/foo/bar")) must beNone
     }
 
     "「/」にアクセスするとリダイレクトされる" in new WithApplication{

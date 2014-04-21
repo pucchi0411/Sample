@@ -100,7 +100,6 @@ class ThreadActionsSpec extends Specification with Mockito {
       )
       val response = action.create(1)(FakeRequest("POST","/1/thread/create").withJsonBody(json))
 
-      contentAsString(response) must contain("hoge")
       redirectLocation(response) must equalTo(Some("/1/thread"))
     }
 

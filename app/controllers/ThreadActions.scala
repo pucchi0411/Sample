@@ -33,10 +33,10 @@ class ThreadActions(Threads:Threads,Boards:Boards) extends Controller {
       newThreadForm.bindFromRequest.fold(
         errors => Redirect(routes.Application.index()),
         newThread => {
-          val board = Boards.findById(boardId)
-          board map (_.create(newThread))
-
-          Redirect(routes.ThreadActions.list(boardId))
+          Boards.findById(boardId).map{ b =>
+            b.create(newThread)
+            Redirect(routes.ThreadActions.list(boardId))
+          }.getOrElse(NotFound)
         }
       )
   }

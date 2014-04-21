@@ -6,8 +6,8 @@ import play.api.data.Forms._
 import play.api.data.Form
 import models.{Boards, Threads, Comments, NewComment}
 
-object PageActions extends PageActions(Threads,Comments)
-class PageActions(Threads:Threads,Comments:Comments) extends Controller {
+object PageActions extends PageActions(Boards,Threads,Comments)
+class PageActions(Boards:Boards,Threads:Threads,Comments:Comments) extends Controller {
 
   val deleteForm = Form(
     mapping(
