@@ -80,9 +80,9 @@ class ThreadActionsSpec extends Specification with Mockito {
         "name" -> JsString(""),
         "message" -> JsString("fuga")
       )
-      val response = action.create(1)(FakeRequest("POST","/1/thread/create").withJsonBody(json))
+      val response = action.create(1)(FakeRequest("POST","/1").withJsonBody(json))
 
-      redirectLocation(response) must equalTo(Some("/1/thread"))
+      redirectLocation(response) must equalTo(Some("/sample/1"))
     }
 
     "formから値が取得できればスレッドトップにリダイレクト[/1/thread]" in new WithApplication {
@@ -98,9 +98,9 @@ class ThreadActionsSpec extends Specification with Mockito {
         "name" -> JsString("hoge"),
         "message" -> JsString("fuga")
       )
-      val response = action.create(1)(FakeRequest("POST","/1/thread/create").withJsonBody(json))
+      val response = action.create(1)(FakeRequest("POST","/1").withJsonBody(json))
 
-      redirectLocation(response) must equalTo(Some("/1/thread"))
+      redirectLocation(response) must equalTo(Some("/sample/1"))
     }
 
   }

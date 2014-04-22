@@ -12,7 +12,7 @@
         @for(thread <- threads) {
             <tr>
                 <td>
-                    <a href="/@board.id/@thread.id">@thread.name</a>
+                    <a href="@routes.PageActions.read(board.id,thread.id)">@thread.name</a>
                 </td>
             </tr>
         }

@@ -7,17 +7,17 @@ GET         /                        controllers.Application.index
 
 # Boards
 
-GET         /board                   controllers.BoardActions.list
-POST        /board/create            controllers.BoardActions.create
+GET         /sample                  controllers.BoardActions.list
+POST        /sample                  controllers.BoardActions.create
 
 # thread
-GET         /:boardId/thread         controllers.ThreadActions.list(boardId:Long)
-POST        /:boardId/thread/create  controllers.ThreadActions.create(boardId:Long)
+GET         /sample/:boardId         controllers.ThreadActions.list(boardId:Long)
+POST        /sample/:boardId         controllers.ThreadActions.create(boardId:Long)
 
 # comments
-GET         /:boardId/:threadId               controllers.PageActions.read(boardId:Long,threadId:Long)
-POST        /:boardId/:threadId/create        controllers.PageActions.create(boardId:Long,threadId:Long)
-DELETE      /:boardId/:threadId/:commentId    controllers.PageActions.delete(boardId:Long,threadId:Long,commentId:Long)
+GET         /sample/:boardId/:threadId               controllers.PageActions.read(boardId:Long,threadId:Long)
+POST        /sample/:boardId/:threadId               controllers.PageActions.create(boardId:Long,threadId:Long)
+DELETE      /sample/:boardId/:threadId/:commentId    controllers.PageActions.delete(boardId:Long,threadId:Long,commentId:Long)
 
 
 # Map static resources from the /public folder to the /assets URL path

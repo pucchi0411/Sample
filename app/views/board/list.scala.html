@@ -11,7 +11,7 @@
         @for(board <- boards) {
             <tr>
                 <td>
-                    <a href="/@board.id/thread">@board.name</a>
+                    <a href="@routes.ThreadActions.list(board.id)">@board.name</a>
                 </td>
             </tr>
         }

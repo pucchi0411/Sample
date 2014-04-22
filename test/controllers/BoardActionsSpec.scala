@@ -48,7 +48,7 @@ class BoardActionsSpec extends Specification with Mockito {
 
       val action = new BoardActions(board)
 
-      val response = route(FakeRequest(GET, "/board")).get
+      val response = route(FakeRequest(GET, "/sample")).get
       status(response) must equalTo(OK)
     }
 
@@ -61,7 +61,7 @@ class BoardActionsSpec extends Specification with Mockito {
 
       val action = new BoardActions(boards)
 
-      val response = action.list(FakeRequest(GET, "/board"))
+      val response = action.list(FakeRequest(GET, "/sample"))
 
       contentAsString(response) must contain("hoge")
       status(response) must equalTo(OK)
@@ -78,9 +78,9 @@ class BoardActionsSpec extends Specification with Mockito {
         "name" -> JsString(""),
         "message" -> JsString("fuga")
       )
-      val response = action.create()(FakeRequest("POST","/board/create").withJsonBody(json))
+      val response = action.create()(FakeRequest("POST","/sample").withJsonBody(json))
 
-      redirectLocation(response) must equalTo(Some("/board"))
+      redirectLocation(response) must equalTo(Some("/sample"))
     }
 
     "formから値が取得できれば[/board]にリダイレクト" in new WithApplication {
@@ -95,11 +95,11 @@ class BoardActionsSpec extends Specification with Mockito {
         "name" -> JsString("hoge"),
         "message" -> JsString("fuga")
       )
-      val response = action.create()(FakeRequest("POST","/board/create").withJsonBody(json))
+      val response = action.create()(FakeRequest("POST","/sample").withJsonBody(json))
 
       there was one(boards).create(models.NewBoard("hoge","fuga"))
 
-      redirectLocation(response) must equalTo(Some("/board"))
+      redirectLocation(response) must equalTo(Some("/sample"))
     }
   }
 

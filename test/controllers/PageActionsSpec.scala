@@ -107,10 +107,10 @@ class PageActionsSpec extends Specification with Mockito {
         "name" -> JsString("hoge"),
         "comment" -> JsString("")
       )
-      val response = action.create(1,1)(FakeRequest("POST", "/1/1/create").withJsonBody(json))
+      val response = action.create(1,1)(FakeRequest("POST", "/1/1").withJsonBody(json))
 
       flash(response) must equalTo(play.api.mvc.Flash(Map("errors"->"error")))
-      redirectLocation(response) must equalTo(Some("/1/1"))
+      redirectLocation(response) must equalTo(Some("/sample/1/1"))
     }
 
     "formから値が取得できたが,スレッドが存在しない場合NotFound" in new WithApplication {
@@ -128,7 +128,7 @@ class PageActionsSpec extends Specification with Mockito {
         "name" -> JsString(""),
         "comment" -> JsString("fuga")
       )
-      val response = action.create(1,1)(FakeRequest("POST", "/1/1/create").withJsonBody(json))
+      val response = action.create(1,1)(FakeRequest("POST", "/1/1").withJsonBody(json))
 
       status(response) must equalTo(NOT_FOUND)
     }
@@ -152,9 +152,9 @@ class PageActionsSpec extends Specification with Mockito {
         "name" -> JsString(""),
         "comment" -> JsString("fuga")
       )
-      val response = action.create(1,1)(FakeRequest("POST", "/1/1/create").withJsonBody(json))
+      val response = action.create(1,1)(FakeRequest("POST", "/1/1").withJsonBody(json))
 
-      redirectLocation(response) must equalTo(Some("/1/1"))
+      redirectLocation(response) must equalTo(Some("/sample/1/1"))
     }
   }
 
