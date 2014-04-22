@@ -6,6 +6,10 @@
             <h1>@thread.name</h1>
             <p>@thread.message</p>
         </div>
+        <ol class="breadcrumb">
+            <li><a href="@routes.BoardActions.list">@board.name</a></li>
+            <li><a href="@routes.ThreadActions.list(board.id)">@thread.name</a></li>
+        </ol>
 
         <table class="table">
             <tr>
