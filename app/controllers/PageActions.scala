@@ -32,6 +32,16 @@ class PageActions(Boards:Boards,Threads:Threads,Comments:Comments) extends Contr
       }.getOrElse(NotFound)
   }
 
+  def diff(boardId:Long,threadId:Long,from:Long) = Action {
+    implicit request =>
+      Boards.findById(boardId).flatMap{ b =>
+        Threads.findById(threadId).map { t =>
+          val comments = Comments.diff(t,from)
+          Ok(views.html.thread.commentElem(comments))
+        }
+      }.getOrElse(NotFound)
+  }
+
   def delete(boardId: Long,threadId:Long,commentId: Long) = Action {
     implicit request =>
       deleteForm.bindFromRequest().fold(
@@ -54,6 +64,10 @@ class PageActions(Boards:Boards,Threads:Threads,Comments:Comments) extends Contr
           }.getOrElse(NotFound)
         }
       )
+  }
+
+  def autoReloadJs(boardId:Long,threadId:Long) = Action {
+    Ok(views.js.thread.page(boardId,threadId))
   }
 
 }

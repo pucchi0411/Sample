@@ -1,4 +1,4 @@
-@(board:Board,thread: Thread, comments: List[models.Comment], form: Form[models.NewComment])(implicit flash: play.api.mvc.Flash)
+@(board: Board, thread: Thread, comments: List[models.Comment], form: Form[models.NewComment])(implicit flash: play.api.mvc.Flash)
 
     @main("Welcome to Play") {
 
@@ -12,16 +12,21 @@
         </ol>
 
         <table class="table">
-            <tr>
-                <th>name</th>
-                <th>comment</th>
-            </tr>
+            <thead>
+                <tr>
+                    <th>name</th>
+                    <th>comment</th>
+                </tr>
+            </thead>
+            <tbody>
             @for(comment <- comments) {
                 <tr>
+                    <td class="id" hidden>@comment.id</td>
                     <td>@comment.name</td>
                     <td>@comment.comment</td>
                 </tr>
             }
+            </tbody>
         </table>
 
 
@@ -31,8 +36,8 @@
                 <div class="col-md-5 col-md-offset-1">
                     <div class="row">
                         <form role="form"
-                              action="@routes.PageActions.create(board.id,thread.id).url"
-                              method="@routes.PageActions.create(board.id,thread.id).method">
+                        action="@routes.PageActions.create(board.id, thread.id).url"
+                        method="@routes.PageActions.create(board.id, thread.id).method">
                             <div class="form-group col-md-5">
                                 <label>名前</label>
                                 <input type="text" name="name" class="form-control" />
@@ -59,5 +64,7 @@
             <lebel>error message</lebel>
             <p>@message</p>
         }
+
+        <script src="@routes.PageActions.autoReloadJs(board.id,thread.id)" type="text/javascript"></script>
 
     }

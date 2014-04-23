@@ -43,4 +43,9 @@ class Comments {
       .update.apply()
   }
 
+  def diff(thread:Thread,from:Long)(implicit session:DBSession = AutoSession) = {
+    sql"select * from comments where thread_id = ${thread.id} and id > ${from}"
+      .map(*).list.apply()
+  }
+
 }
