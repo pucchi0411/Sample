@@ -12,14 +12,11 @@ $(function () {
 function refresh() {
     var time = new Date().getTime();
 
-    var reloader =  (function() {
-        if (new Date().getTime() - time >= 5000) {
-            console.log("reloaded");
+    var reloader = (function () {
+        if (new Date().getTime() - time >= 5000)
             window.location.reload(true);
-        } else {
-            console.log("interval time not yet.");
+        else
             setTimeout(reloader, 1000);
-        }
     });
 
     return reloader;
