@@ -1,0 +1,9 @@
+@(comments:List[Comment])
+
+@for(comment <- comments) {
+    <tr>
+        <td hidden class="id">@comment.id</td>
+        <td>@comment.name</td>
+        <td>@comment.comment</td>
+    </tr>
+}
