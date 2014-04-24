@@ -66,8 +66,4 @@ class PageActions(Boards:Boards,Threads:Threads,Comments:Comments) extends Contr
       )
   }
 
-  def autoReloadJs(boardId:Long,threadId:Long) = Action {
-    Ok(views.js.thread.page(boardId,threadId))
-  }
-
 }

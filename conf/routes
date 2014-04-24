@@ -19,7 +19,6 @@ GET         /sample/:boardId/:threadId               controllers.PageActions.rea
 GET         /sample/:boardId/:threadId/:commentId    controllers.PageActions.diff(boardId:Long,threadId:Long,commentId:Long)
 POST        /sample/:boardId/:threadId               controllers.PageActions.create(boardId:Long,threadId:Long)
 DELETE      /sample/:boardId/:threadId/:commentId    controllers.PageActions.delete(boardId:Long,threadId:Long,commentId:Long)
-GET         /assets/javascripts/page.js              controllers.PageActions.autoReloadJs(boardId:Long,threadId:Long)
 
 # Map static resources from the /public folder to the /assets URL path
 GET         /assets/*file            controllers.Assets.at(path="/public", file)
