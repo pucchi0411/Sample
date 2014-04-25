@@ -1,2 +1,0 @@
-@(boardId:Long,threadId:Long)
-
