@@ -36,6 +36,14 @@ CREATE TABLE comments (
     ON DELETE CASCADE
 );
 
+CREATE SEQUENCE IF NOT EXISTS account_id_seq;
+CREATE TABLE accounts (
+    id integer NOT NULL DEFAULT nextval('account_id_seq'),
+    email text NOT NULL,
+    password text NOT NULL,
+    permission text NOT NULL
+)
+
 # --- !Downs
 
 DROP TABLE comments;
